@@ -1,4 +1,4 @@
-/*Description
+/* Description
 
 The game is now more difficult to beat; your chances of guessing the word depend on the list size. 
 If there are four words in the list, you have a 25% chance. 
@@ -16,7 +16,6 @@ console.log("Guess the word:");
 const wordsRepo = ['python', 'java', 'swift', 'javascript'];
 const wordToGuess = getRandomWord(wordsRepo);
 let displayWord = hideLetters(wordToGuess);
-console.log(displayWord)
 const userInput = input();
 let gameOutcome = determineOutcome(userInput, wordToGuess);
 displayOutcome(gameOutcome);
@@ -39,11 +38,11 @@ function getRandomWord(wordsRepo) {
 }
 
 function hideLetters(input) {
-    let intpurArr = input.split('');
-    for (let i = 0; i <= intpurArr.length - 1; i++) {
+    let inputArr = input.split('');
+    for (let i = 0; i <= inputArr.length - 1; i++) {
           if (i > 2) {
-              intpurArr[i] = '-';
+              inputArr[i] = '-';
           }
     }
-    return intpurArr.join('');
+    return inputArr.join('');
 }
