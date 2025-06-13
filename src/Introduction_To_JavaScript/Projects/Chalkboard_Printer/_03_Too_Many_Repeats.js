@@ -23,3 +23,5 @@ for (let i = 1; i <= count; i++) {
 function writeMessage(name, surname, message) {
     console.log(`This is ${name} ${surname} and ${message}`)
 }
+
+console.log("Welcome to the Chalkboard Printer!");
