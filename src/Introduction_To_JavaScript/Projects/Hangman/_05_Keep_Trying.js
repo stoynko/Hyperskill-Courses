@@ -20,49 +20,66 @@ Objectives:
 
 const input = require('sync-input');
 let userLives = 8;
-
 const word = getRandomWord();
 let hiddenWord = '-'.repeat(word.length);
-console.log("H A N G M A N");
+
+console.log('H A N G M A N');
+console.log('');
 console.log(hiddenWord);
 
-function revealLetter(word, hiddenWord, wordIndex) {
-    let wordChars = hiddenWord.split('');
-    for (let index = 0; index < word.length; index++) {
-        if (index === wordIndex) {
-            wordChars[index] = word.charAt(index)
+while (userLives > 0) {
+
+    let guess = getUserInput();
+
+    if (hiddenWord.includes(guess)) {
+    } else {
+        let wordIndexes = getLetterIndexes(guess, word);
+        if (wordIndexes.length === 0) {
+            console.log("That letter doesn't appear in the word.");
+            console.log('');  // blank line after message only
+        } else {
+            for (const idx of wordIndexes) {
+                hiddenWord = revealLetter(word, hiddenWord, idx);
+            }
         }
     }
-    return wordChars.join('');
+    userLives--;
+    console.log(hiddenWord);
 }
 
-while (userLives > 0) {
-    let wordIndex = determineOutcome(getUserInput(), word, hiddenWord);
-    if (wordIndex === -1) {
-        console.log('That letter doesn\'t appear in the word.')
-    } else if (wordIndex >= 0) {
-        hiddenWord = revealLetter(word, hiddenWord, wordIndex);
-        console.log(hiddenWord);
-    }
-    userLives -= 1;
-}
 console.log('Thanks for playing!');
 
 function getUserInput() {
     console.log('Input a letter:');
-    let userInput = input()
-    return userInput;
-}
-
-function determineOutcome(userInput, word, hiddenWord) {
-    if (hiddenWord.includes(userInput)) {
-        return word.indexOf(userInput, hiddenWord.indexOf(userInput) + 1);
-    }
-    return word.indexOf(userInput);
+    return input();
 }
 
 function getRandomWord() {
     const wordsRepo = ['python', 'java', 'swift', 'javascript'];
     let randomNumber = Math.floor(Math.random() * wordsRepo.length);
     return wordsRepo[randomNumber]
+}
+
+function getLetterIndexes(guess, word) {
+    let currentIndex = 0;
+    let letterIndexes = [];
+
+    while (true) {
+        currentIndex = word.indexOf(guess, currentIndex);
+
+        if (currentIndex === -1) {
+            break;
+        }
+
+        letterIndexes.push(currentIndex);
+        currentIndex++;
+    }
+
+    return letterIndexes;
+}
+
+function revealLetter(word, hiddenWord, wordIndex) {
+    let wordChars = hiddenWord.split('');
+    wordChars[wordIndex] = word[wordIndex];
+    return wordChars.join('');
 }
